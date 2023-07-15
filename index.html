@@ -1,0 +1,34 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake</title>
+    <link rel="stylesheet" href="index.css" />
+    <script type="module" src="index.js"></script>
+  </head>
+  <body>
+    <article id="game-container">
+      <aside id="ui">
+        <menu id="end" hidden>
+          <li>
+            <p>game over</p>
+          </li>
+          <li>
+            <form>
+              <button type="submit">restart</button>
+            </form>
+          </li>
+        </menu>
+        <menu id="pause" hidden>
+          <li>
+            <p>paused</p>
+          </li>
+          <li>
+            <p>press <kbd>esc</kbd> to resume</p>
+          </li>
+        </menu>
+      </aside>
+      <canvas id="game" width="500" height="500"></canvas>
+    </article>
+  </body>
+</html>

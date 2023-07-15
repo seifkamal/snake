@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "scripts": {
+    "test": "node --test .",
+    "start": "python3 -m http.server"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2"
+  }
+}
