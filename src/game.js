@@ -1,6 +1,6 @@
 import { PauseEvent, RestartEvent, TurnEvent } from "./events.js";
 
-export class Game {
+export class Game extends EventTarget {
   static startingFps = 4;
   static fpsIncrementInterval = 5;
 
@@ -12,9 +12,13 @@ export class Game {
    * @param {import('./snake.js').Snake} snake
    * @param {import('./menu.js').Menu} menu
    * @param {import('./input.js').InputManager} inputManager
+   * @param {import('./storage.js').Storage} storage
    */
-  constructor(scene, snake, menu, inputManager) {
+  constructor(scene, snake, menu, inputManager, storage) {
+    super();
+
     this.scene = scene;
+    this.storage = storage;
     this.snake = snake;
     this.snakeInitialState = snake.clone();
 
@@ -86,19 +90,32 @@ export class Game {
     }
   }
 
+  #endGame() {
+    this.stop();
+
+    if (this.score > this.storage.highScore) {
+      this.storage.highScore = this.score;
+    }
+  }
+
+  #feedSnake() {
+    this.snake.grow();
+    this.food = this.scene.randomPoint();
+
+    this.#updateScore(this.score + 1);
+    if (this.score % Game.fpsIncrementInterval === 0) {
+      this.#updateFps(this.fps + 1, true);
+    }
+  }
+
   #simulate() {
     if (this.snake.overlapsItself()) {
-      this.stop();
+      this.#endGame();
       return;
     }
 
     if (this.snake.canEat(this.food)) {
-      this.snake.grow();
-      this.food = this.scene.randomPoint();
-      this.#updateScore(this.score + 1);
-      if (this.score % Game.fpsIncrementInterval === 0) {
-        this.#updateFps(this.fps + 1, true);
-      }
+      this.#feedSnake();
     }
 
     this.snake.step(this.scene.bounds);
