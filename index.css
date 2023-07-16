@@ -43,6 +43,15 @@
   background-color: color-mix(in srgb, transparent, var(--c-bg) 50%);
 }
 
+#score {
+  position: absolute;
+  top: 8px;
+  inset-inline: 0;
+  margin: auto;
+  width: fit-content;
+  font-size: larger;
+}
+
 menu {
   list-style-type: none;
 }

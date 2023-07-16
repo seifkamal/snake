@@ -29,6 +29,11 @@ function createScene() {
 }
 
 function createMenu() {
+  const score = document.querySelector("#score");
+  if (!(score instanceof HTMLElement)) {
+    throw new Error("could not find score element");
+  }
+
   const endMenu = document.querySelector("menu#end");
   if (!(endMenu instanceof HTMLElement)) {
     throw new Error("could not find end menu element");
@@ -39,5 +44,5 @@ function createMenu() {
     throw new Error("could not find pause menu element");
   }
 
-  return new Menu(endMenu, pauseMenu);
+  return new Menu(score, endMenu, pauseMenu);
 }

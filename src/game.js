@@ -1,9 +1,8 @@
 import { PauseEvent, TurnEvent } from "./events.js";
 
 export class Game {
-  settings = {
-    fps: 4,
-  };
+  static startingFps = 4;
+  static fpsIncreaseInterval = 5;
 
   /** @type {ReturnType<typeof setInterval> | null} */
   #loop;
@@ -22,9 +21,13 @@ export class Game {
     this.input.addEventListener(PauseEvent.type, this.#handlePauseEvent);
     this.input.addEventListener(TurnEvent.type, this.#handleTurnEvent);
     this.food = this.scene.randomPoint();
+    this.fps = Game.startingFps;
+    this.score = 0;
   }
 
   start() {
+    this.fps = Game.startingFps;
+    this.score = 0;
     this.#startLoop();
     this.input.start();
     this.menu.hideEndScreen();
@@ -63,6 +66,13 @@ export class Game {
     if (this.snake.canEat(this.food)) {
       this.snake.grow();
       this.food = this.scene.randomPoint();
+      this.score++;
+      this.menu.updateScore(this.score);
+      if (this.score % Game.fpsIncreaseInterval === 0) {
+        this.fps++;
+        this.#stopLoop();
+        this.#startLoop();
+      }
     }
 
     this.snake.step(this.scene.bounds);
@@ -78,7 +88,7 @@ export class Game {
     if (this.#loop) {
       return;
     }
-    const interval = 1_000 / this.settings.fps;
+    const interval = 1_000 / this.fps;
     this.#loop = setInterval(this.#tick.bind(this), interval);
   }
 

@@ -1,8 +1,10 @@
-/** @typedef {'up' | 'down' | 'left' | 'right'} Direction */
 export class TurnEvent extends CustomEvent {
-  static type = "input:turn";
+  static type = "snake:turn";
 
-  /** @param {Direction} direction */
+  /**
+   * @typedef {'up' | 'down' | 'left' | 'right'} Direction
+   * @param {Direction} direction
+   */
   constructor(direction) {
     super(TurnEvent.type, { detail: direction });
   }
@@ -14,7 +16,7 @@ export class TurnEvent extends CustomEvent {
 }
 
 export class PauseEvent extends Event {
-  static type = "input:pause";
+  static type = "snake:pause";
   constructor() {
     super(PauseEvent.type);
   }
