@@ -21,3 +21,10 @@ export class PauseEvent extends Event {
     super(PauseEvent.type);
   }
 }
+
+export class RestartEvent extends Event {
+  static type = "snake:restart";
+  constructor() {
+    super(RestartEvent.type);
+  }
+}

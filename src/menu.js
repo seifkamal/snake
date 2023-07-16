@@ -1,4 +1,6 @@
-export class Menu {
+import { RestartEvent } from "./events.js";
+
+export class Menu extends EventTarget {
   #score;
   #endScreen;
   #pauseScreen;
@@ -9,10 +11,13 @@ export class Menu {
    * @param {HTMLElement} pauseScreen
    */
   constructor(score, endScreen, pauseScreen) {
+    super();
+
     this.#score = score;
     this.#score.textContent = "0";
 
     this.#endScreen = endScreen;
+    this.#endScreen.addEventListener("submit", this.#handleEndRestart);
     this.hideEndScreen();
 
     this.#pauseScreen = pauseScreen;
@@ -39,4 +44,10 @@ export class Menu {
   updateScore(total) {
     this.#score.textContent = String(total);
   }
+
+  /** @param {SubmitEvent} event */
+  #handleEndRestart = (event) => {
+    event.preventDefault();
+    this.dispatchEvent(new RestartEvent());
+  };
 }

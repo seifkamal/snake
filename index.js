@@ -6,18 +6,14 @@ import { InputManager } from "./src/input.js";
 import { Vec } from "./src/geometry.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const snake = createSnake();
   const scene = createScene();
+  const snake = createSnake(scene.bounds);
   const menu = createMenu();
   const input = new InputManager(window);
-  const game = new Game(snake, scene, menu, input);
+  const game = new Game(scene, snake, menu, input);
 
   game.start();
 });
-
-function createSnake() {
-  return new Snake(new Vec(2, 5), Vec.right, [Vec.left]);
-}
 
 function createScene() {
   const canvas = document.querySelector("canvas#game");
@@ -26,6 +22,12 @@ function createScene() {
   }
 
   return new Scene(canvas);
+}
+
+/** @param {Vec} bounds */
+function createSnake({ x, y }) {
+  const startAt = new Vec(Math.floor(x / 2), Math.floor(y / 1.2));
+  return new Snake(startAt, Vec.up, [Vec.down]);
 }
 
 function createMenu() {

@@ -7,10 +7,10 @@ export class Snake {
 
   /**
    * @param {Vec} head
-   * @param {Vec} [facing]
-   * @param {Vec[]} [body]
+   * @param {Vec} facing
+   * @param {Vec[]} body
    */
-  constructor(head, facing = Vec.right, body = []) {
+  constructor(head, facing, body) {
     this.#head = head;
     this.#facing = facing;
     this.#body = body;
@@ -22,6 +22,15 @@ export class Snake {
 
   get neck() {
     return this.#body[0];
+  }
+
+  /** @returns {Snake} */
+  clone() {
+    return new Snake(
+      Vec.clone(this.#head),
+      Vec.clone(this.#facing),
+      this.#body.map(Vec.clone)
+    );
   }
 
   /** @param {Vec | string} towards */

@@ -1,19 +1,23 @@
 import { Grid, Vec } from "./geometry.js";
 
 export class Scene {
-  #settings = {
+  static DefaultSettings = {
     gridScale: 25,
     showGrid: false,
   };
 
-  /** @param {HTMLCanvasElement} canvas */
-  constructor(canvas) {
+  /**
+   * @param {HTMLCanvasElement} canvas
+   * @param {Partial<typeof Scene.DefaultSettings>} [settings]
+   */
+  constructor(canvas, settings = {}) {
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       throw new Error("canvas 2d context not supported");
     }
     this.ctx = ctx;
-    this.grid = Grid.fromCanvas(canvas, this.#settings.gridScale);
+    this.settings = { ...Scene.DefaultSettings, ...settings };
+    this.grid = Grid.fromCanvas(canvas, this.settings.gridScale);
   }
 
   get bounds() {
@@ -30,7 +34,7 @@ export class Scene {
 
   /** @param {import('./geometry.js').Vec[]} points */
   render(...points) {
-    if (this.#settings.showGrid) {
+    if (this.settings.showGrid) {
       this.#drawGrid();
     }
     if (points) {
