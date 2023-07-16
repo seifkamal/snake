@@ -14,10 +14,13 @@
     --c-bg: ghostwhite;
     --c-neutral: lightslategray;
     --c-accent: lavender;
+    --c-sh-text: color-mix(in srgb, transparent, var(--c-neutral) 40%);
+    --m: 50ms linear;
 
     font-family: monospace;
     color: var(--c-fg);
     background-color: var(--c-bg);
+    text-shadow: 0 1px 4px var(--c-sh-text);
   }
 }
 
@@ -75,10 +78,16 @@ button {
   border: 2px solid var(--c-fg);
   padding: 1px 2px;
   box-shadow: 0 4px 0 -2px var(--c-neutral);
+  transition: translate var(--m), box-shadow var(--m);
+}
+
+button:active {
+  box-shadow: none;
+  translate: 0 2px;
 }
 
 kbd {
   padding: 1px 2px;
-  color: lavender;
+  color: var(--c-accent);
   background-color: var(--c-fg);
 }
